@@ -25,6 +25,11 @@ public class SampleApplication {
 java -jar sample-batch.jar
 ```
 
+Parameter를 전달할수도 있다.
+```bash
+java -jar sample-batch.jar param1=value1 param2=value2...
+```
+
 ## In-Memory Repository 사용
 
 SpringBatch 실행정보는 JobRepository를 통해 Database에 기록된다.
@@ -63,14 +68,14 @@ java -Dspring.batch.job.names=job1,job2,job3 -jar sample-batch.jar
 
 무조건 명시적으로 Job을 지정하게끔 만들고 싶으면 어떻게 할까?
 
-우선 application.properties에 아래 항목을 넣어 전체 Job이 실행되지 않도록 한다.
+우선 application.properties에 아래 항목을 추가한다.
 ```properties
 spring.batch.job.enabled=false
 ```
 
-그러면 BatchAutoConfiguration에서는 JobLauncherCommandLineRunner빈을 자동으로 생성하지 않는다.
+그러면 BatchAutoConfiguration에서는 JobLauncherCommandLineRunner빈을 자동으로 생성하지 않게된다.
 
-이제 우리가 원하는대로 JobLauncherCommandLineRunner빈을 직접 생성하면 된다. (jobNames이 없으면 실행되지 않도록 처리한다.)
+이제 우리가 원하는대로 JobLauncherCommandLineRunner빈을 직접 생성하면 된다. (그리고 jobNames이 없으면 실행되지 않도록 처리한다.)
 ```java
 @Configuration
 @EnableConfigurationProperties(BatchProperties.class)
@@ -84,7 +89,7 @@ public class SampleBatchConfig {
         JobLauncherCommandLineRunner runner = new JobLauncherCommandLineRunner(jobLauncher, jobExplorer);
         String jobNames = this.properties.getJob().getNames();
         if (!StringUtils.hasText(jobNames)) {
-            throw new IllegalArgumentException("Job names could not empty!");
+            throw new IllegalArgumentException("Job names could not empty!"); // jobNames가 비어있으면 에러!
         }
         runner.setJobNames(jobNames);
         return runner;
