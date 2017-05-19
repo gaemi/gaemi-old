@@ -5,7 +5,7 @@
     ![New Project - Spring Initializr](IntelliJ+NewProject+SpringInitializr.png)
     2. Group, Artifact, Name 등등 입력. Maven 또는 Gradle 선택 (여기서는 Gradle 기준으로 설명)
     3. 적절하게 의존성을 선택합니다. (Web, JPA, Template Engines 등등)
-    ![New Project - 의존성선택](IntelliJ+NewProject+의존성.png)
+    ![New Project - 의존성선택](IntelliJ+NewProject+Dependency.png)
 * SpringBoot CLI 사용
     `-d` 옵션을 사용해서 의존성을 지정한다.
     ```
